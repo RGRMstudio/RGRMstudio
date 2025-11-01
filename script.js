@@ -11,6 +11,7 @@ class RGRMStudioStore {
         this.setupEventListeners();
         this.initializeCart();
         this.setupSmoothScrolling();
+        this.updateCartDisplay(); // Initialize cart display
     }
 
     loadProducts() {
@@ -102,21 +103,78 @@ class RGRMStudioStore {
         if (product) {
             this.cart.push({
                 ...product,
-                cartId: Date.now() // Unique ID for cart item
+                cartId: Date.now()
             });
             localStorage.setItem('rgrstudio_cart', JSON.stringify(this.cart));
             this.showNotification(`🎉 ${product.name} added to cart!`);
-            this.updateCartCounter();
+            this.updateCartDisplay();
         }
     }
 
-    updateCartCounter() {
-        // You can add a cart counter in the navigation later
-        console.log('Cart items:', this.cart.length);
+    updateCartDisplay() {
+        // Update cart count
+        const cartCount = document.getElementById('cart-count');
+        if (cartCount) {
+            cartCount.textContent = this.cart.length;
+        }
+
+        // Update cart items
+        const cartItems = document.getElementById('cart-items');
+        const cartTotal = document.getElementById('cart-total');
+
+        if (this.cart.length === 0) {
+            if (cartItems) cartItems.innerHTML = '<p>Your cart is empty</p>';
+            if (cartTotal) cartTotal.textContent = 'Total: $0.00';
+        } else {
+            if (cartItems) {
+                cartItems.innerHTML = this.cart.map(item => `
+                    <div class="cart-item">
+                        <div>
+                            <strong>${item.name}</strong>
+                            <br>
+                            <small>$${item.price}</small>
+                        </div>
+                        <button onclick="store.removeFromCart(${item.cartId})" style="background: #ff4444; color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer;">Remove</button>
+                    </div>
+                `).join('');
+            }
+
+            const total = this.cart.reduce((sum, item) => sum + item.price, 0);
+            if (cartTotal) cartTotal.textContent = `Total: $${total.toFixed(2)}`;
+        }
+    }
+
+    removeFromCart(cartId) {
+        this.cart = this.cart.filter(item => item.cartId !== cartId);
+        localStorage.setItem('rgrstudio_cart', JSON.stringify(this.cart));
+        this.updateCartDisplay();
+        this.showNotification('Item removed from cart');
+    }
+
+    openCart() {
+        const sidebar = document.getElementById('cart-sidebar');
+        const overlay = document.getElementById('cart-overlay');
+        if (sidebar) sidebar.classList.add('active');
+        if (overlay) overlay.classList.add('active');
+    }
+
+    closeCart() {
+        const sidebar = document.getElementById('cart-sidebar');
+        const overlay = document.getElementById('cart-overlay');
+        if (sidebar) sidebar.classList.remove('active');
+        if (overlay) overlay.classList.remove('active');
+    }
+
+    checkout() {
+        if (this.cart.length === 0) {
+            this.showNotification('Your cart is empty!');
+            return;
+        }
+        this.showNotification('🚀 Checkout functionality coming soon!');
+        // Here you would integrate with Stripe or another payment processor
     }
 
     showNotification(message) {
-        // Create a stylish notification
         const notification = document.createElement('div');
         notification.style.cssText = `
             position: fixed;
@@ -129,18 +187,14 @@ class RGRMStudioStore {
             z-index: 1001;
             font-weight: 600;
             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-            animation: slideInRight 0.3s ease-out;
         `;
         notification.textContent = message;
         document.body.appendChild(notification);
 
         setTimeout(() => {
-            notification.style.animation = 'slideOutRight 0.3s ease-in';
-            setTimeout(() => {
-                if (document.body.contains(notification)) {
-                    document.body.removeChild(notification);
-                }
-            }, 300);
+            if (document.body.contains(notification)) {
+                document.body.removeChild(notification);
+            }
         }, 3000);
     }
 
@@ -155,7 +209,22 @@ class RGRMStudioStore {
             });
         }
 
-        // Navbar scroll effect
+        // Cart icon click
+        const cartIcon = document.getElementById('cart-icon');
+        if (cartIcon) {
+            cartIcon.addEventListener('click', () => {
+                this.openCart();
+            });
+        }
+
+        // Overlay click to close cart
+        const overlay = document.getElementById('cart-overlay');
+        if (overlay) {
+            overlay.addEventListener('click', () => {
+                this.closeCart();
+            });
+        }
+
         window.addEventListener('scroll', this.handleScroll.bind(this));
     }
 
@@ -176,53 +245,22 @@ class RGRMStudioStore {
 
     handleScroll() {
         const navbar = document.querySelector('.navbar');
-        if (window.scrollY > 100) {
+        if (navbar && window.scrollY > 100) {
             navbar.style.background = 'rgba(255, 255, 255, 0.98)';
             navbar.style.boxShadow = '0 5px 20px rgba(0,0,0,0.1)';
-        } else {
+        } else if (navbar) {
             navbar.style.background = 'rgba(255, 255, 255, 0.95)';
             navbar.style.boxShadow = '0 2px 20px rgba(0,0,0,0.1)';
         }
     }
 
     handleNewsletterSignup(email) {
-        // Show success message
         this.showNotification('📧 Welcome to RGRMstudio! Thanks for subscribing.');
-        document.getElementById('newsletter-form').reset();
-        
-        // In a real scenario, you would send this to your email service
+        const form = document.getElementById('newsletter-form');
+        if (form) form.reset();
         console.log('New RGRMstudio subscriber:', email);
-        
-        // You can integrate with Mailchimp, ConvertKit, etc. here
     }
 }
-
-// Add CSS animations
-const style = document.createElement('style');
-style.textContent = `
-    @keyframes slideInRight {
-        from {
-            transform: translateX(100%);
-            opacity: 0;
-        }
-        to {
-            transform: translateX(0);
-            opacity: 1;
-        }
-    }
-    
-    @keyframes slideOutRight {
-        from {
-            transform: translateX(0);
-            opacity: 1;
-        }
-        to {
-            transform: translateX(100%);
-            opacity: 0;
-        }
-    }
-`;
-document.head.appendChild(style);
 
 // Initialize the store when the page loads
 document.addEventListener('DOMContentLoaded', () => {
