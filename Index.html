@@ -5,7 +5,404 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RGRMstudio - Premium Designed Products</title>
     <meta name="description" content="RGRMstudio - Unique apparel and premium products featuring exclusive designs. High-quality prints and custom creations.">
-    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #1a1a2e;
+            --secondary-color: #e94560;
+            --accent-color: #0f3460;
+            --text-color: #333;
+            --light-bg: #f8f9fa;
+            --gradient: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Navigation */
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo h2 {
+            color: var(--primary-color);
+            font-weight: 700;
+            letter-spacing: -1px;
+        }
+
+        .nav-menu a {
+            margin-left: 2rem;
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-menu a:hover {
+            color: var(--secondary-color);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: var(--gradient);
+            color: white;
+            padding: 140px 20px 80px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><polygon fill="rgba(255,255,255,0.05)" points="0,1000 1000,0 1000,1000"/></svg>');
+            background-size: cover;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .hero-content p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: var(--secondary-color);
+            color: white;
+            padding: 15px 35px;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(233, 69, 96, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(233, 69, 96, 0.4);
+            color: white;
+        }
+
+        /* Products Section */
+        .products {
+            padding: 100px 0;
+            background: var(--light-bg);
+        }
+
+        .products h2 {
+            text-align: center;
+            margin-bottom: 3rem;
+            font-size: 2.8rem;
+            color: var(--primary-color);
+            font-weight: 700;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 280px;
+            background: linear-gradient(45deg, #f0f0f0, #e0e0e0);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: var(--primary-color);
+        }
+
+        .product-info {
+            padding: 2rem;
+        }
+
+        .product-info h3 {
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+            font-size: 1.4rem;
+        }
+
+        .product-info p {
+            color: #666;
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+        }
+
+        .product-price {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: var(--secondary-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .buy-button {
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: background 0.3s ease;
+        }
+
+        .buy-button:hover {
+            background: var(--primary-color);
+        }
+
+        /* About Section */
+        .about {
+            padding: 100px 0;
+            background: white;
+        }
+
+        .about h2 {
+            text-align: center;
+            margin-bottom: 3rem;
+            font-size: 2.8rem;
+            color: var(--primary-color);
+            font-weight: 700;
+        }
+
+        .about-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        .about-content p {
+            font-size: 1.2rem;
+            margin-bottom: 3rem;
+            color: #555;
+            line-height: 1.8;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .feature {
+            padding: 2rem;
+            background: var(--light-bg);
+            border-radius: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .feature:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        /* Contact Section */
+        .contact {
+            padding: 100px 0;
+            background: var(--gradient);
+            color: white;
+            text-align: center;
+        }
+
+        .contact h2 {
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .contact p {
+            font-size: 1.2rem;
+            margin-bottom: 3rem;
+            opacity: 0.9;
+        }
+
+        .newsletter-form {
+            max-width: 500px;
+            margin: 2rem auto;
+            display: flex;
+            gap: 0;
+            background: white;
+            border-radius: 50px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .newsletter-form input {
+            flex: 1;
+            padding: 18px 25px;
+            border: none;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .newsletter-form button {
+            background: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 18px 35px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .newsletter-form button:hover {
+            background: #d83a56;
+        }
+
+        .contact-info {
+            margin-top: 3rem;
+        }
+
+        .contact-info p {
+            font-size: 1.1rem;
+            margin: 0.5rem 0;
+        }
+
+        .footer {
+            background: var(--primary-color);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 3rem;
+            grid-column: 1 / -1;
+            font-size: 1.2rem;
+            color: #666;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+            
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero-content p {
+                font-size: 1.1rem;
+            }
+            
+            .products h2,
+            .about h2,
+            .contact h2 {
+                font-size: 2.2rem;
+            }
+            
+            .newsletter-form {
+                flex-direction: column;
+                border-radius: 15px;
+            }
+            
+            .newsletter-form input,
+            .newsletter-form button {
+                width: 100%;
+                border-radius: 0;
+            }
+            
+            .features {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Animation */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .product-card {
+            animation: fadeInUp 0.6s ease-out;
+        }
+    </style>
 </head>
 <body>
     <!-- Navigation -->
@@ -88,6 +485,197 @@
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <script>
+        // RGRMstudio - E-commerce functionality
+        class RGRMStudioStore {
+            constructor() {
+                this.products = [];
+                this.cart = [];
+                this.init();
+            }
+
+            init() {
+                this.loadProducts();
+                this.setupEventListeners();
+                this.initializeCart();
+                this.setupSmoothScrolling();
+            }
+
+            loadProducts() {
+                // Sample products - Replace with your actual Printful products later
+                this.products = [
+                    {
+                        id: 1,
+                        name: "Signature T-Shirt",
+                        price: 29.99,
+                        image: "👕",
+                        description: "Premium cotton t-shirt with exclusive RGRMstudio design"
+                    },
+                    {
+                        id: 2,
+                        name: "Art Print Collection",
+                        price: 39.99,
+                        image: "🖼️",
+                        description: "Set of 3 high-quality art prints for your space"
+                    },
+                    {
+                        id: 3,
+                        name: "Designer Hoodie",
+                        price: 59.99,
+                        image: "🧥",
+                        description: "Comfortable hoodie featuring unique RGRMstudio artwork"
+                    },
+                    {
+                        id: 4,
+                        name: "Limited Edition Poster",
+                        price: 24.99,
+                        image: "📰",
+                        description: "Exclusive limited run poster with numbered certificate"
+                    },
+                    {
+                        id: 5,
+                        name: "Premium Sticker Pack",
+                        price: 14.99,
+                        image: "⭐",
+                        description: "Collection of 10 high-quality vinyl stickers"
+                    },
+                    {
+                        id: 6,
+                        name: "Custom Mug",
+                        price: 19.99,
+                        image: "☕",
+                        description: "Ceramic mug with your favorite RGRMstudio design"
+                    }
+                ];
+
+                this.displayProducts();
+            }
+
+            displayProducts() {
+                const grid = document.getElementById('products-grid');
+                
+                if (this.products.length === 0) {
+                    grid.innerHTML = '<div class="loading">Coming soon! New products launching shortly.</div>';
+                    return;
+                }
+
+                grid.innerHTML = this.products.map(product => `
+                    <div class="product-card">
+                        <div class="product-image">
+                            ${product.image}
+                        </div>
+                        <div class="product-info">
+                            <h3>${product.name}</h3>
+                            <p>${product.description}</p>
+                            <div class="product-price">$${product.price}</div>
+                            <button class="buy-button" onclick="store.addToCart(${product.id})">
+                                Add to Cart 🛒
+                            </button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            initializeCart() {
+                if (!localStorage.getItem('rgrstudio_cart')) {
+                    localStorage.setItem('rgrstudio_cart', JSON.stringify([]));
+                } else {
+                    this.cart = JSON.parse(localStorage.getItem('rgrstudio_cart'));
+                }
+            }
+
+            addToCart(productId) {
+                const product = this.products.find(p => p.id === productId);
+                
+                if (product) {
+                    this.cart.push({
+                        ...product,
+                        cartId: Date.now()
+                    });
+                    localStorage.setItem('rgrstudio_cart', JSON.stringify(this.cart));
+                    this.showNotification(`🎉 ${product.name} added to cart!`);
+                    this.updateCartCounter();
+                }
+            }
+
+            updateCartCounter() {
+                console.log('Cart items:', this.cart.length);
+            }
+
+            showNotification(message) {
+                const notification = document.createElement('div');
+                notification.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    background: var(--secondary-color);
+                    color: white;
+                    padding: 1rem 1.5rem;
+                    border-radius: 10px;
+                    z-index: 1001;
+                    font-weight: 600;
+                    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+                `;
+                notification.textContent = message;
+                document.body.appendChild(notification);
+
+                setTimeout(() => {
+                    if (document.body.contains(notification)) {
+                        document.body.removeChild(notification);
+                    }
+                }, 3000);
+            }
+
+            setupEventListeners() {
+                const newsletterForm = document.getElementById('newsletter-form');
+                if (newsletterForm) {
+                    newsletterForm.addEventListener('submit', (e) => {
+                        e.preventDefault();
+                        const email = e.target.querySelector('input[type="email"]').value;
+                        this.handleNewsletterSignup(email);
+                    });
+                }
+
+                window.addEventListener('scroll', this.handleScroll.bind(this));
+            }
+
+            setupSmoothScrolling() {
+                document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                    anchor.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        const target = document.querySelector(this.getAttribute('href'));
+                        if (target) {
+                            target.scrollIntoView({
+                                behavior: 'smooth',
+                                block: 'start'
+                            });
+                        }
+                    });
+                });
+            }
+
+            handleScroll() {
+                const navbar = document.querySelector('.navbar');
+                if (window.scrollY > 100) {
+                    navbar.style.background = 'rgba(255, 255, 255, 0.98)';
+                    navbar.style.boxShadow = '0 5px 20px rgba(0,0,0,0.1)';
+                } else {
+                    navbar.style.background = 'rgba(255, 255, 255, 0.95)';
+                    navbar.style.boxShadow = '0 2px 20px rgba(0,0,0,0.1)';
+                }
+            }
+
+            handleNewsletterSignup(email) {
+                this.showNotification('📧 Welcome to RGRMstudio! Thanks for subscribing.');
+                document.getElementById('newsletter-form').reset();
+                console.log('New RGRMstudio subscriber:', email);
+            }
+        }
+
+        // Initialize the store when the page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            window.store = new RGRMStudioStore();
+        });
+    </script>
 </body>
 </html>
