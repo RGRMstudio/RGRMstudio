@@ -2,119 +2,81 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <title>RaGuiRoMo Studio – Premium Designer Apparel</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RGRMstudio - Premium Designed Products</title>
-    <meta name="description" content="RGRMstudio - Unique apparel and premium products featuring exclusive designs. High-quality prints and custom creations.">
     <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:700,800,900&display=swap" rel="stylesheet">
 </head>
 <body>
+    <!-- Logo -->
+    <header class="header-logo">
+      <img src="YOUR_LOGO_FILENAME.png" alt="RaGuiRoMo Logo">
+    </header>
+
     <!-- Navigation -->
     <nav class="navbar">
-        <div class="nav-container">
-            <div class="logo">
-                <h2>RGRMstudio</h2>
-            </div>
-            <div class="nav-menu">
-                <a href="#home">Home</a>
-                <a href="#products">Products</a>
-                <a href="#about">About</a>
-                <a href="#contact">Contact</a>
-                <div class="cart-icon" id="cart-icon">
-                    🛒
-                    <span class="cart-count" id="cart-count">0</span>
-                </div>
-            </div>
-        </div>
+      <a href="#">Home</a>
+      <a href="#shop">Shop</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
     </nav>
 
-    <!-- Cart Sidebar -->
-    <div class="cart-overlay" id="cart-overlay"></div>
-    <div class="cart-sidebar" id="cart-sidebar">
-        <h3>Your Cart</h3>
-        <div id="cart-items">
-            <!-- Cart items will appear here -->
-        </div>
-        <div class="cart-total" id="cart-total">Total: $0.00</div>
-        <button class="checkout-button" onclick="store.checkout()">Checkout</button>
-        <button style="width: 100%; padding: 10px; margin-top: 10px; background: #666; color: white; border: none; border-radius: 5px;" onclick="store.closeCart()">Continue Shopping</button>
-    </div>
-
-    <!-- Hero Section -->
-    <section id="home" class="hero">
-        <div class="hero-content">
-            <h1>Welcome to RGRMstudio</h1>
-            <p>Where creative design meets premium quality products</p>
-            <a href="#products" class="cta-button">Explore Collection</a>
-        </div>
+    <!-- Hero Banner -->
+    <section class="hero">
+      <h1>Elevate Your Style</h1>
+      <p>High-end, bold, and classic: Experience true design with RaGuiRoMo Studio fashion.</p>
+      <a href="#shop"><button class="cta-button">Discover the Collection</button></a>
     </section>
 
-    <!-- Products Section -->
-    <section id="products" class="products">
-        <div class="container">
-            <h2>Featured Products</h2>
-            <div class="products-grid" id="products-grid">
-                <div class="loading">Loading our exclusive products...</div>
-            </div>
+    <!-- Featured Products -->
+    <section id="shop">
+      <h2 class="section-title">Featured Products</h2>
+      <div class="featured-products">
+        <div class="product-card">
+          <img src="product1.jpg" alt="Product 1">
+          <h3>The Skyline Hoodie</h3>
+          <p>Ultra-soft, limited edition print. Modern meets street.</p>
+          <div class="prod-price">$98</div>
+          <button class="add-to-cart-btn">Add to Cart</button>
         </div>
+        <div class="product-card">
+          <img src="product2.jpg" alt="Product 2">
+          <h3>Bauhaus Jacket</h3>
+          <p>Striking geometrics, flawless detail, iconic silhouette.</p>
+          <div class="prod-price">$145</div>
+          <button class="add-to-cart-btn">Add to Cart</button>
+        </div>
+        <div class="product-card">
+          <img src="product3.jpg" alt="Product 3">
+          <h3>Cubist Tee</h3>
+          <p>Color block graphics, premium cotton, bold minimalism.</p>
+          <div class="prod-price">$59</div>
+          <button class="add-to-cart-btn">Add to Cart</button>
+        </div>
+      </div>
     </section>
 
-    <!-- About Section -->
-    <section id="about" class="about">
-        <div class="container">
-            <h2>About RGRMstudio</h2>
-            <div class="about-content">
-                <p>RGRMstudio represents the creative vision of passionate designers dedicated to bringing unique artwork to life through premium products. Each piece is carefully crafted and printed with the highest quality standards.</p>
-                <div class="features">
-                    <div class="feature">
-                        <h3>🎨 Unique Designs</h3>
-                        <p>Exclusive artwork you won't find anywhere else</p>
-                    </div>
-                    <div class="feature">
-                        <h3>⚡ Premium Quality</h3>
-                        <p>High-quality materials and professional printing</p>
-                    </div>
-                    <div class="feature">
-                        <h3>🚚 Fast Shipping</h3>
-                        <p>Worldwide delivery with tracking</p>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <!-- About Us -->
+    <section class="about-section" id="about">
+      <div class="about-inner">
+        <h2>About RaGuiRoMo Studio</h2>
+        <p>Born at the crossroads of art and design, we blend modern geometry, vivid color, and supreme materials. Every piece is made in limited runs with conscious details and bold personality. Designed in Aurora, shipped worldwide.</p>
+      </div>
     </section>
 
-    <!-- Contact Section -->
-    <section id="contact" class="contact">
-        <div class="container">
-            <h2>Stay Connected</h2>
-            <p>Be the first to know about new designs and exclusive offers</p>
-            <form class="newsletter-form" id="newsletter-form">
-                <input type="email" placeholder="Enter your email" required>
-                <button type="submit">Subscribe</button>
-            </form>
-            <div class="contact-info">
-                <p>📧 contact@rgrstudio.com</p>
-            </div>
-        </div>
+    <!-- Contact -->
+    <section class="contact-section" id="contact">
+      <div class="contact-inner">
+        <h2>Contact</h2>
+        <p>Email: <a href="mailto:info@raguiromo.store">info@raguiromo.store</a></p>
+      </div>
     </section>
 
     <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <p>&copy; 2024 RGRMstudio. All rights reserved.</p>
-        </div>
+    <footer>
+      <div class="footer-inner">
+        &copy; 2025 RaGuiRoMo Studio. All rights reserved.
+      </div>
     </footer>
-
-    <script src="script.js"></script>
 </body>
 </html>
-
-<div class="contact-info">
-    <p>📧 contact@raguiromo.store</p>
-</div>
-
-<footer class="footer">
-    <div class="container">
-        <p>&copy; 2024 RGRMstudio. All rights reserved.</p>
-        <p>www.raguiromo.store</p>
-    </div>
-</footer>
