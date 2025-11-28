@@ -11,62 +11,57 @@ class RGRMStudioStore {
         this.setupEventListeners();
         this.initializeCart();
         this.setupSmoothScrolling();
-        this.updateCartDisplay(); // Initialize cart display
+        this.updateCartDisplay();
     }
 
-    loadProducts() {
-        // Sample products - Replace with your actual Printful products later
-        this.products = [
-            {
-                id: 1,
-                name: "Signature T-Shirt",
-                price: 29.99,
-                image: "👕",
-                description: "Premium cotton t-shirt with exclusive RGRMstudio design"
-            },
-            {
-                id: 2,
-                name: "Art Print Collection",
-                price: 39.99,
-                image: "🖼️",
-                description: "Set of 3 high-quality art prints for your space"
-            },
-            {
-                id: 3,
-                name: "Designer Hoodie",
-                price: 59.99,
-                image: "🧥",
-                description: "Comfortable hoodie featuring unique RGRMstudio artwork"
-            },
-            {
-                id: 4,
-                name: "Limited Edition Poster",
-                price: 24.99,
-                image: "📰",
-                description: "Exclusive limited run poster with numbered certificate"
-            },
-            {
-                id: 5,
-                name: "Premium Sticker Pack",
-                price: 14.99,
-                image: "⭐",
-                description: "Collection of 10 high-quality vinyl stickers"
-            },
-            {
-                id: 6,
-                name: "Custom Mug",
-                price: 19.99,
-                image: "☕",
-                description: "Ceramic mug with your favorite RGRMstudio design"
+    async loadProducts() {
+        try {
+            // 1. Get products from your Vercel API route (which talks to Printful)
+            const res = await fetch("/api/printful");
+            if (!res.ok) {
+                throw new Error("Failed to load products, status " + res.status);
             }
-        ];
 
-        this.displayProducts();
+            const data = await res.json();
+            const rawProducts = data.result || [];
+
+            // 2. Map Printful products into the format your store uses
+            this.products = rawProducts.map((item, index) => {
+                // Printful returns objects with product + variants
+                const product = item.sync_product || item.product || item;
+                const variants = item.variants || [];
+
+                const firstVariant = variants[0] || {};
+                const price = firstVariant.retail_price
+                    ? parseFloat(firstVariant.retail_price)
+                    : 0;
+
+                return {
+                    id: index + 1, // local id for cart; could also use product.id
+                    name: product.name || "Product",
+                    price: price || 0,
+                    image: "🛍️", // placeholder emoji; you can switch to real <img> URLs later
+                    description: product.description || "RaGuiRoMo design from Printful"
+                };
+            });
+
+            this.displayProducts();
+        } catch (error) {
+            console.error("Error loading products:", error);
+            // Fallback message on screen
+            const grid = document.getElementById("products-grid");
+            if (grid) {
+                grid.innerHTML =
+                    '<div class="loading">We are updating products. Please check back soon.</div>';
+            }
+        }
     }
 
     displayProducts() {
         const grid = document.getElementById('products-grid');
         
+        if (!grid) return;
+
         if (this.products.length === 0) {
             grid.innerHTML = '<div class="loading">Coming soon! New products launching shortly.</div>';
             return;
@@ -80,7 +75,7 @@ class RGRMStudioStore {
                 <div class="product-info">
                     <h3>${product.name}</h3>
                     <p>${product.description}</p>
-                    <div class="product-price">$${product.price}</div>
+                    <div class="product-price">$${product.price.toFixed(2)}</div>
                     <button class="buy-button" onclick="store.addToCart(${product.id})">
                         Add to Cart 🛒
                     </button>
@@ -112,13 +107,11 @@ class RGRMStudioStore {
     }
 
     updateCartDisplay() {
-        // Update cart count
         const cartCount = document.getElementById('cart-count');
         if (cartCount) {
             cartCount.textContent = this.cart.length;
         }
 
-        // Update cart items
         const cartItems = document.getElementById('cart-items');
         const cartTotal = document.getElementById('cart-total');
 
@@ -132,7 +125,7 @@ class RGRMStudioStore {
                         <div>
                             <strong>${item.name}</strong>
                             <br>
-                            <small>$${item.price}</small>
+                            <small>$${item.price.toFixed(2)}</small>
                         </div>
                         <button onclick="store.removeFromCart(${item.cartId})" style="background: #ff4444; color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer;">Remove</button>
                     </div>
@@ -171,7 +164,7 @@ class RGRMStudioStore {
             return;
         }
         this.showNotification('🚀 Checkout functionality coming soon!');
-        // Here you would integrate with Stripe or another payment processor
+        // Later: integrate Stripe checkout here
     }
 
     showNotification(message) {
@@ -199,7 +192,6 @@ class RGRMStudioStore {
     }
 
     setupEventListeners() {
-        // Newsletter form
         const newsletterForm = document.getElementById('newsletter-form');
         if (newsletterForm) {
             newsletterForm.addEventListener('submit', (e) => {
@@ -209,7 +201,6 @@ class RGRMStudioStore {
             });
         }
 
-        // Cart icon click
         const cartIcon = document.getElementById('cart-icon');
         if (cartIcon) {
             cartIcon.addEventListener('click', () => {
@@ -217,7 +208,6 @@ class RGRMStudioStore {
             });
         }
 
-        // Overlay click to close cart
         const overlay = document.getElementById('cart-overlay');
         if (overlay) {
             overlay.addEventListener('click', () => {
