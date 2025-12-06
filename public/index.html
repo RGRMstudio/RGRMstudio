@@ -824,6 +824,23 @@
             }
         }
     </style>
+    <!-- Vercel Speed Insights -->
+    <script>
+        // Load Vercel Speed Insights for performance monitoring
+        (function() {
+            const script = document.createElement('script');
+            script.src = '/_vercel/insights/script.js';
+            script.defer = true;
+            script.onload = function() {
+                if (window.webVitals) {
+                    window.webVitals.getWebVitals(metric => {
+                        console.log('Web Vital:', metric);
+                    });
+                }
+            };
+            document.head.appendChild(script);
+        })();
+    </script>
 </head>
 <body>
     <!-- Header -->
