@@ -14,7 +14,7 @@
     "react-dom": "^18"
   "nodemailer": "^6.9.7",
   "mysql2": "^3.6.3",
-  "lru-cache": "^10.0.0"
+  "lru-cache": "^10.0.0",
     "@vercel/analytics": "latest"
 },
   },
