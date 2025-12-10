@@ -1,5 +1,6 @@
 import './globals.css'
-import Script from 'next/script'  // ← ADDED THIS LINE
+import Script from 'next/script'
+import { Analytics } from '@vercel/analytics/react'  // ← ADDED
 
 export default function RootLayout({ children }) {
   return (
@@ -7,7 +8,7 @@ export default function RootLayout({ children }) {
       <head>
         <title>RGRMstudio</title>
         
-        {/* Google Analytics - ADDED THIS SECTION */}
+        {/* Google Analytics */}
         <Script
           strategy="afterInteractive"
           src="https://www.googletagmanager.com/gtag/js?id=G-492YH65ZG1"
@@ -26,7 +27,10 @@ export default function RootLayout({ children }) {
         />
         
       </head>
-      <body>{children}</body>
+      <body>
+        {children}
+        <Analytics />   {/* ← ADDED THIS LINE */}
+      </body>
     </html>
   )
 }
